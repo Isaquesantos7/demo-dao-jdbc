@@ -47,7 +47,7 @@ public class Department {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Id: " + this.getId());
-		sb.append(", Department: " + this.getName());
+		sb.append(", " + this.getName());
 		
 		return sb.toString();
 	}
