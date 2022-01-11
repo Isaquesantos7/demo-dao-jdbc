@@ -26,7 +26,46 @@ public class SellerDaoJDBC implements SellerDao{
 	
 	@Override
 	public void insert(Seller obj) {
+		PreparedStatement st = null;
 		
+		try
+		{
+			String SQL = "INSERT INTO Seller (Name, Email, BirthDate, BaseSalary, DepartmentId)"
+					+ " Values (?, ?, ?, ?, ?)";
+			
+			st = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			
+			int rows = st.executeUpdate();
+			
+			if(rows > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if(rs.next()) 
+				{
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				
+				DB.closeResultSet(rs);
+			}
+			else
+			{
+				throw new DbExceptions("No rows Affect!");
+			}
+		}
+		catch(SQLException e)
+		{
+			throw new DbExceptions("Error: " + e.getMessage());
+		}
+		finally
+		{
+			DB.closeStatement(st);
+		}
 	}
 	
 	@Override
@@ -47,11 +86,11 @@ public class SellerDaoJDBC implements SellerDao{
 			int rows = st.executeUpdate();
 			
 			if(rows > 0) {
-				System.out.println("Done! rows effected " + rows);
+				System.out.println("Done! rows Affected " + rows);
 			}
 			else
 			{
-				System.out.println("No rows effect!");
+				System.out.println("No rows Affect!");
 			}
 	
 		}

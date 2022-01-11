@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Date;
 import java.text.ParseException;
 import java.util.List;
 
@@ -34,6 +35,11 @@ public class Program{
 		}
 		
 		System.out.println("\n=== Teste 4: DeleteById ====");
-		sellerDao.deleteById(1);
+		sellerDao.deleteById(24);
+		
+		System.out.println("\n=== Teste 5: Insert ====");
+		Seller newSeller = new Seller(null, "Bob Brown", "bobbrown@gmail.com", new Date(), 3500.0, department);
+		sellerDao.insert(newSeller);
+		System.out.println("Inserted! new id = " + newSeller.getId());
 	}
 }
