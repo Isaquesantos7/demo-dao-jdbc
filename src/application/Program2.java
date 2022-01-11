@@ -15,5 +15,9 @@ public class Program2 {
 		for(Department x : list) {
 			System.out.println(x);
 		}
+		
+		System.out.println("\n=== Test 2: findById ===");
+		Department dep = new Department(6, null);
+		System.out.println(departmentDao.findById(dep.getId()));
 	}
 }
