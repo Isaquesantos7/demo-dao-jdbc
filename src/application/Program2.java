@@ -19,5 +19,12 @@ public class Program2 {
 		System.out.println("\n=== Test 2: findById ===");
 		Department dep = new Department(6, null);
 		System.out.println(departmentDao.findById(dep.getId()));
+		
+		/*
+		System.out.println("\n=== Test 3: insert department ===");
+		dep = new Department(null, "Boxes");
+		departmentDao.insert(dep);
+		System.out.println("Insert completed!");
+		*/
 	}
 }
