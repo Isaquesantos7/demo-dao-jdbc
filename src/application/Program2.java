@@ -22,15 +22,19 @@ public class Program2 {
 		
 		/*
 		System.out.println("\n=== Test 3: insert department ===");
-		dep = new Department(null, "Boxes");
+		dep = new Department(null, "People");
 		departmentDao.insert(dep);
 		System.out.println("Insert completed!");
-		*/
+		 */
 		
 		System.out.println("\n=== Test 4: Update department ===");
-		dep = new Department(null, "FastFood");
-		dep.setId(8);
+		dep = new Department(null, "Television");
+		dep.setId(6);
 		departmentDao.update(dep);
 		System.out.println("Update completed!");
+		
+		System.out.println("\n=== Test 5: Delete department ===");
+		departmentDao.deleteById(15);
+		System.out.println("Delete Completed!");
 	}
 }

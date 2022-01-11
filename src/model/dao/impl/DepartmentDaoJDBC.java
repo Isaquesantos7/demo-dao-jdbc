@@ -74,6 +74,7 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 				if(rs.next()) {
 					int id = rs.getInt(1);
 					obj.setId(id);
+					System.out.println("Update Complete, rows Affected " + rowsAffect);
 				}
 				DB.closeResultSet(rs);
 			}
@@ -94,7 +95,33 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 	
 	@Override
 	public void deleteById(Integer id) {
+		PreparedStatement st = null;
 		
+		try
+		{
+			String SQL = "DELETE FROM department WHERE Id = ?";
+			st = conn.prepareStatement(SQL);
+			
+			st.setInt(1, id);
+			
+			int rowsAffect = st.executeUpdate();
+			
+			if(rowsAffect > 0) {
+				System.out.println("Delete Complete, rows Affected " + rowsAffect);
+			}
+			else
+			{
+				throw new DbExceptions("No rows Affected!");
+			}
+		}
+		catch(SQLException e)
+		{
+			throw new DbExceptions("Error: " + e.getMessage());
+		}
+		finally
+		{
+			DB.closeStatement(st);
+		}
 	}
 	
 	@Override
