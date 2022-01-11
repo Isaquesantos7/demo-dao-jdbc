@@ -3,6 +3,7 @@ package model.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.text.DecimalFormat;
 
 public class Seller implements Serializable{
 
@@ -15,6 +16,7 @@ public class Seller implements Serializable{
 	private Double baseSalary;
 	
 	private Department department;
+	private static DecimalFormat df = new DecimalFormat("0.00");
 	
 	public Seller()
 	{
@@ -100,7 +102,7 @@ public class Seller implements Serializable{
 	@Override
 	public String toString() {
 		return "Seller [id=" + id + ", name=" + name + ", email=" + email + ", birthDate=" + birthDate + ", baseSalary="
-				+ baseSalary + ", department= [Id: " + department.getId() + ", Name: " + department.getName() + "]";
+				+ df.format(this.getBaseSalary()) + ", department= [Id: " + department.getId() + ", Name: " + department.getName() + "]";
 	}
 	
 	

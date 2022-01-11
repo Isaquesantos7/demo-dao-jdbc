@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import db.DB;
 import db.DbExceptions;
+import db.DbIntegrityException;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
@@ -34,7 +36,33 @@ public class SellerDaoJDBC implements SellerDao{
 	
 	@Override
 	public void deleteById(Integer id) {
+		PreparedStatement st = null;
+		
+		try
+		{
+			String SQL = "DELETE FROM seller WHERE Id = ?";
+			st = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+			st.setInt(1, id);
+			
+			int rows = st.executeUpdate();
+			
+			if(rows > 0) {
+				System.out.println("Done! rows effected " + rows);
+			}
+			else
+			{
+				System.out.println("No rows effect!");
+			}
 	
+		}
+		catch(SQLException e)
+		{
+			throw new DbIntegrityException("Error: " + e.getMessage());
+		}
+		finally
+		{
+			DB.closeStatement(st);
+		}
 	}
 	
 	@Override
@@ -92,7 +120,44 @@ public class SellerDaoJDBC implements SellerDao{
 	
 	@Override
 	public List<Seller> findAll(){
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			String SQL = "SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "ORDER BY Name";
+			st = conn.prepareStatement(SQL);
+			rs = st.executeQuery();
+			
+			List<Seller> list = new ArrayList<>();
+			Map<Integer, Department> map = new HashMap<>();
+			
+			while(rs.next()) {
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				
+				if(dep == null) 
+				{
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				Seller obj = instantiateSeller(rs, dep);
+				list.add(obj);
+			}
+			return list;
+		}
+		catch(SQLException e)
+		{
+			throw new DbExceptions("Error: " + e.getMessage());
+		}
+		finally
+		{
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		
 	}
 	
 	@Override
