@@ -34,11 +34,12 @@ public class Program{
 			System.out.println(x);
 		}
 		
+		/*
 		System.out.println("\n=== Teste 4: Insert ====");
 		Seller newSeller = new Seller(null, "Bob Brown", "bobbrown@gmail.com", new Date(), 3500.0, department);
 		sellerDao.insert(newSeller);
 		System.out.println("Inserted! new id = " + newSeller.getId());
-		
+		*/
 		System.out.println("\n=== Teste 5: UpdateSeller ====");
 		seller = sellerDao.findById(2);
 		seller.setName("Maria Eduarda");
@@ -48,7 +49,7 @@ public class Program{
 		
 		
 		System.out.println("\n=== Teste 6: DeleteById ====");
-		sellerDao.deleteById(24);
+		sellerDao.deleteById(27);
 		
 	}
 }
