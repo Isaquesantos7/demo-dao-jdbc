@@ -26,5 +26,11 @@ public class Program2 {
 		departmentDao.insert(dep);
 		System.out.println("Insert completed!");
 		*/
+		
+		System.out.println("\n=== Test 4: Update department ===");
+		dep = new Department(null, "FastFood");
+		dep.setId(8);
+		departmentDao.update(dep);
+		System.out.println("Update completed!");
 	}
 }
